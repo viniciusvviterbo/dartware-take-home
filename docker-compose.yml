@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  blog_database:
+    image: mongo:latest
+    restart: unless-stopped
+    ports: 
+      - 27017:27017
+    volumes:
+      - blog_database:/data/db
+    networks:
+      - backend
+
+  blog_backend:
+    image: viniciusvviterbo/blog_backend
+    depends_on:
+      - blog_database
+    build: ./blog_backend
+    restart: unless-stopped
+    ports:
+      - 4400:4400
+    environment:
+      - NODE_ENV=prod
+      - PORT=4400
+      - DB_MONGO_URI_PROD=mongodb://blog_database:27017
+      - DB_MONGO_URI_DEV=mongodb://localhost:27017/
+      - DB_NAME=blog_database
+      - DB_COLLECTION_USER=users
+      - DB_COLLECTION_ARTICLE=articles
+      - INTEGRATION_URL=http://jsonplaceholder.typicode.com
+      - INTEGRATION_USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59"
+    networks:
+      - backend
+      - frontend
+
+  blog_frontend:
+    image: viniciusvviterbo/blog_frontend
+    depends_on:
+        - blog_backend
+    build: ./blog_frontend
+    ports:
+      - 4444:4444
+    networks:
+      - frontend 
+
+volumes:
+  blog_database:
+
+networks:
+  backend:
+  frontend:
