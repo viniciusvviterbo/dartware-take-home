@@ -27,7 +27,7 @@ Afterwards, follow the instructions from the repositories "Setting the project u
 
 # Usage
 
-Feel free to browse the frontend at [http://localhost:4444](http://localhost:4444), and to access the API endpoints at (http://localhost:4400)[http://localhost:4400].
+Feel free to browse the frontend at [http://localhost:4444](http://localhost:4444), and to access the API endpoints at [http://localhost:4400](http://localhost:4400).
 
 ---
 
